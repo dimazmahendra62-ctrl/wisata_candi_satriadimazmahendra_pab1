@@ -15,14 +15,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Daftar Candi'),
+        centerTitle: true,
       ),
+
       body: GridView.builder(
         padding: const EdgeInsets.all(8),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // dua kolom
+          crossAxisCount: 2,          // 2 kolom
           crossAxisSpacing: 8,
           mainAxisSpacing: 8,
-          childAspectRatio: 3 / 4,
+          childAspectRatio: 3 / 4,    // proporsi card
         ),
         itemCount: candiList.length,
         itemBuilder: (context, index) {

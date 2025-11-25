@@ -14,9 +14,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _filterCandis(String query) {
     final filtered = candiList
-        .where((candi) =>
-    candi.name.toLowerCase().contains(query.toLowerCase()) ||
-        candi.location.toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (candi) =>
+      candi.name.toLowerCase().contains(query.toLowerCase()) ||
+          candi.location.toLowerCase().contains(query.toLowerCase()),
+    )
         .toList();
 
     setState(() {
@@ -37,7 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.deepPurple[50],
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: TextField(
                 controller: _searchController,
@@ -46,55 +48,59 @@ class _SearchScreenState extends State<SearchScreen> {
                   hintText: 'Cari candi ...',
                   prefixIcon: Icon(Icons.search),
                   border: InputBorder.none,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurple),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
                   ),
-                  contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
               ),
             ),
           ),
+
+          // LIST VIEW
           Expanded(
             child: ListView.builder(
               itemCount: _filteredCandis.length,
               itemBuilder: (context, index) {
                 final candi = _filteredCandis[index];
+
                 return Card(
                   margin:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: 100,
-                        height: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            candi.imageAsset,
-                            fit: BoxFit.cover,
-                          ),
+                      // IMAGE
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          candi.imageAsset,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
                         ),
                       ),
+
+                      const SizedBox(width: 12),
+
+                      // NAME + LOCATION
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                candi.name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              candi.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(height: 4),
-                              Text(candi.location),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              candi.location,
+                              style:
+                              TextStyle(color: Colors.grey[700], fontSize: 14),
+                            ),
+                          ],
                         ),
                       ),
                     ],
