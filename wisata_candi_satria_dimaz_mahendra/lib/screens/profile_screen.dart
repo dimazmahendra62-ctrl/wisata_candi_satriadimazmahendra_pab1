@@ -9,22 +9,27 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isSignedIn = true;
+  bool isSignedIn = false;
+  String fullName = 'Nama Lengkap Kamu';
+  String userName = 'Username';
+  int favoriteCandiCount = 0;
 
-  String userName = 'Satria Dimaz Mahendra';
-  String userEmail = 'Dimaz@gmail.com';
-  int favoriteCandiCount = 2;
-
+  // SIGN IN
   void signIn() {
     setState(() {
       isSignedIn = true;
     });
   }
 
+  // SIGN OUT
   void signOut() {
     setState(() {
       isSignedIn = false;
     });
+  }
+
+  void onEditPressed() {
+    debugPrint('Icon edit ditekan...');
   }
 
   @override
@@ -32,140 +37,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Header background
+          // Background ungu atas
           Container(
             height: 200,
             width: double.infinity,
             color: Colors.deepPurple,
           ),
 
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  // Avatar
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(4.0),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: const CircleAvatar(
-                              radius: 60,
-                              backgroundImage: AssetImage(
-                                'assets/images/placeholder_image.png',
-                              ),
+          // Isi Profil
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+
+                /// FOTO PROFILE
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 150),
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.deepPurple, width: 2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage(
+                              'images/placeholder_image.png',
                             ),
                           ),
+                        ),
 
-                          // Camera icon
-                          if (isSignedIn)
-                            Positioned(
-                              right: -6,
-                              bottom: -6,
-                              child: Material(
-                                elevation: 2,
-                                shape: const CircleBorder(),
-                                color: Colors.white,
-                                child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.camera_alt),
-                                ),
-                              ),
+                        if (isSignedIn)
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.camera_alt,
+                              color: Colors.deepPurple[50],
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
+                ),
 
-                  const SizedBox(height: 8),
+                const SizedBox(height: 20),
+                const Divider(color: Colors.deepPurple),
+                const SizedBox(height: 4),
 
-                  // Name
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                /// USERNAME
+                ProfileInfoItem(
+                  icon: Icons.lock,
+                  label: 'Pengguna',
+                  value: userName,
+                  iconColor: Colors.amber,
+                ),
 
-                  const SizedBox(height: 12),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 12),
+                const SizedBox(height: 4),
+                const Divider(color: Colors.deepPurple),
+                const SizedBox(height: 4),
 
-                  // Full Name row
-                  ProfileInfoItem(
-                    icon: Icons.person,
-                    label: 'Full Name',
-                    value: userName,
-                    iconColor: Colors.deepPurple,
-                    showEditIcon: isSignedIn,
-                    onEditPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Edit name tapped')),
-                      );
-                    },
-                  ),
+                /// NAMA LENGKAP
+                ProfileInfoItem(
+                  icon: Icons.person,
+                  label: 'Nama',
+                  value: fullName,
+                  showEditIcon: isSignedIn,
+                  onEditPressed: onEditPressed,
+                  iconColor: Colors.blue,
+                ),
 
-                  const SizedBox(height: 4),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 4),
+                const SizedBox(height: 4),
+                const Divider(color: Colors.deepPurple),
+                const SizedBox(height: 4),
 
-                  // Email row
-                  ProfileInfoItem(
-                    icon: Icons.email,
-                    label: 'Email',
-                    value: userEmail,
-                    iconColor: Colors.deepPurple,
-                    showEditIcon: isSignedIn,
-                    onEditPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Edit email tapped')),
-                      );
-                    },
-                  ),
+                /// FAVORIT
+                ProfileInfoItem(
+                  icon: Icons.favorite,
+                  label: 'Favorit',
+                  value: favoriteCandiCount.toString(),
+                  iconColor: Colors.red,
+                ),
 
-                  const SizedBox(height: 4),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 4),
+                const SizedBox(height: 4),
+                const Divider(color: Colors.deepPurple),
 
-                  // Favorite count
-                  ProfileInfoItem(
-                    icon: Icons.favorite,
-                    label: 'Favorite Candi',
-                    value: favoriteCandiCount.toString(),
-                    iconColor: Colors.deepPurple,
-                    showEditIcon: false,
-                    onEditPressed: null,
-                  ),
+                const SizedBox(height: 20),
 
-                  const SizedBox(height: 20),
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 8),
-
-                  // Sign In / Sign Out Button
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        if (isSignedIn) {
-                          signOut();
-                        } else {
-                          signIn();
-                        }
-                      },
-                      child: Text(isSignedIn ? 'Sign Out' : 'Sign In'),
-                    ),
-                  ),
-                ],
-              ),
+                /// BUTTON SIGN IN / SIGN OUT
+                isSignedIn
+                    ? TextButton(
+                  onPressed: signOut,
+                  child: const Text('Sign Out'),
+                )
+                    : TextButton(
+                  onPressed: signIn,
+                  child: const Text('Sign In'),
+                ),
+              ],
             ),
           ),
         ],

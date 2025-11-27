@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -8,90 +9,112 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  // Controller
+  final TextEditingController _namaController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   bool _obscurePassword = true;
+  String _errorText = '';
+
+  // Validasi sederhana
+  void _onSignUpPressed() {
+    String password = _passwordController.text;
+
+    setState(() {
+      if (password.length < 8) {
+        _errorText =
+        'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], dan simbol seperti !@#';
+      } else {
+        _errorText = '';
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sign Up Berhasil!')),
+        );
+      }
+    });
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepPurple[50],
       appBar: AppBar(
-        title: const Text("Sign Up"),
+        title: const Text('Sign Up'),
+        backgroundColor: Colors.deepPurple[100],
+        foregroundColor: Colors.deepPurple[900],
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Form(
-            key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
+                // Field Nama Lengkap
+                TextFormField(
+                  controller: _namaController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nama',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
 
-                const Icon(Icons.person_add, size: 80, color: Colors.blue),
+                const SizedBox(height: 16),
 
-                const SizedBox(height: 30),
-
-                // USERNAME
+                // Field Nama Pengguna
                 TextFormField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
                     labelText: 'Nama Pengguna',
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person),
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
-                // EMAIL
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // PASSWORD
+                // Field Kata Sandi
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: 'Kata Sandi',
                     border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.lock),
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
                     suffixIcon: IconButton(
+                      onPressed: _togglePasswordVisibility,
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 24),
 
-                ElevatedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Akun berhasil dibuat (dummy)"),
-                      ),
-                    );
-                    Navigator.pop(context); // kembali ke Sign In
-                  },
-                  child: const Text("Daftar"),
+                // Tombol Sign Up
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.deepPurple[100],
+                    foregroundColor: Colors.deepPurple[900],
+                    minimumSize: const Size(double.infinity, 48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: _onSignUpPressed,
+                  child: const Text(
+                    'Sign Up',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ],
             ),
