@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-
-// Screens
-import 'screens/favorite_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/search_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/sign_up_main.dart';
-import 'screens/sign_in_screen.dart';
-import 'screens/detail_screen.dart';
-
-// Data & Models
-import 'data/data.dart';
-import 'models/candi.dart';
-import 'widgets/profile_info_item.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/favorite_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/home_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/search_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/profile_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/sign_up_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/sign_in_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/data/candi_data.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/screens/detail_screen.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/models/candi.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/widgets/profile_info_item.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +22,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Wisata Candi',
-
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: Colors.deepPurple),
@@ -36,20 +31,17 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-        ).copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
+            .copyWith(
           primary: Colors.deepPurple,
           surface: Colors.deepPurple[50],
         ),
         useMaterial3: true,
       ),
-
-      /// MULAI DARI SIGN IN
-      initialRoute: '/signin',
-
+      home: MainScreen(),
+      initialRoute: '/',
       routes: {
-        '/': (context) => const MainScreen(),
+        '/homescreen': (context) => const HomeScreen(),
         '/signin': (context) => const SignInScreen(),
         '/signup': (context) => const SignUpScreen(),
       },
@@ -68,17 +60,16 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const FavoriteScreen(),
-    const ProfileScreen(),
+    HomeScreen(),
+    SearchScreen(),
+    FavoriteScreen(),
+    ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.deepPurple[50],
@@ -109,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
           selectedItemColor: Colors.deepPurple,
-          unselectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.deepPurple[100],
           showUnselectedLabels: true,
         ),
       ),

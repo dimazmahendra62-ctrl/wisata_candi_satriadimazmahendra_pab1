@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/candi.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/models/candi.dart';
+import '../data/candi_data.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -9,81 +10,83 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController _searchController = TextEditingController();
+  // Variabel
   List<Candi> _filteredCandis = candiList;
-
-  void _filterCandis(String query) {
-    final filtered = candiList
-        .where(
-          (candi) =>
-      candi.name.toLowerCase().contains(query.toLowerCase()) ||
-          candi.location.toLowerCase().contains(query.toLowerCase()),
-    )
-        .toList();
-
-    setState(() {
-      _filteredCandis = filtered;
-    });
-  }
+  String _searchQuery = "";
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Candi'),
+        title: const Text('Pencarian Candi'),
       ),
+
       body: Column(
         children: [
+          // TextField Pencarian
           Padding(
             padding: const EdgeInsets.all(16),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.deepPurple[50],
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
               ),
               child: TextField(
                 controller: _searchController,
-                onChanged: _filterCandis,
                 decoration: const InputDecoration(
                   hintText: 'Cari candi ...',
                   prefixIcon: Icon(Icons.search),
                   border: InputBorder.none,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.deepPurple),
+                  ),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value.toLowerCase();
+                    _filteredCandis = candiList
+                        .where((candi) =>
+                        candi.name.toLowerCase().contains(_searchQuery))
+                        .toList();
+                  });
+                },
               ),
             ),
           ),
 
-          // LIST VIEW
+          // Hasil Pencarian
           Expanded(
             child: ListView.builder(
               itemCount: _filteredCandis.length,
               itemBuilder: (context, index) {
                 final candi = _filteredCandis[index];
-
                 return Card(
-                  margin:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // IMAGE
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          candi.imageAsset,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        width: 100,
+                        height: 100,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            candi.imageAsset,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-
-                      const SizedBox(width: 12),
-
-                      // NAME + LOCATION
-                      Expanded(
+                      Padding(
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -95,11 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              candi.location,
-                              style:
-                              TextStyle(color: Colors.grey[700], fontSize: 14),
-                            ),
+                            Text(candi.location),
                           ],
                         ),
                       ),

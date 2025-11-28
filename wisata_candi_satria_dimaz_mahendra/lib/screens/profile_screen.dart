@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/profile_info_item.dart';
+import 'package:wisata_candi_satria_dimaz_mahendra/widgets/profile_info_item.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,21 +10,17 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isSignedIn = false;
-  String fullName = 'Nama Lengkap Kamu';
-  String userName = 'Username';
+  String fullName = 'Satria Dimaz Mahendra';
+  String userName = 'Satria';
   int favoriteCandiCount = 0;
 
-  // SIGN IN
   void signIn() {
-    setState(() {
-      isSignedIn = true;
-    });
+    Navigator.pushNamed(context, '/signin');
   }
 
-  // SIGN OUT
   void signOut() {
     setState(() {
-      isSignedIn = false;
+      isSignedIn = !isSignedIn;
     });
   }
 
@@ -37,20 +33,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background ungu atas
           Container(
             height: 200,
             width: double.infinity,
             color: Colors.deepPurple,
           ),
 
-          // Isi Profil
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-
-                /// FOTO PROFILE
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
@@ -66,9 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: const CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage(
-                              'images/placeholder_image.png',
-                            ),
+                            backgroundImage:
+                            AssetImage('images/placeholder_image.png'),
                           ),
                         ),
 
@@ -86,10 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
 
                 const SizedBox(height: 20),
+
                 const Divider(color: Colors.deepPurple),
                 const SizedBox(height: 4),
 
-                /// USERNAME
                 ProfileInfoItem(
                   icon: Icons.lock,
                   label: 'Pengguna',
@@ -101,7 +92,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(color: Colors.deepPurple),
                 const SizedBox(height: 4),
 
-                /// NAMA LENGKAP
                 ProfileInfoItem(
                   icon: Icons.person,
                   label: 'Nama',
@@ -115,20 +105,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const Divider(color: Colors.deepPurple),
                 const SizedBox(height: 4),
 
-                /// FAVORIT
                 ProfileInfoItem(
                   icon: Icons.favorite,
                   label: 'Favorit',
-                  value: favoriteCandiCount.toString(),
+                  value: '$favoriteCandiCount',
                   iconColor: Colors.red,
                 ),
 
-                const SizedBox(height: 4),
-                const Divider(color: Colors.deepPurple),
-
                 const SizedBox(height: 20),
 
-                /// BUTTON SIGN IN / SIGN OUT
                 isSignedIn
                     ? TextButton(
                   onPressed: signOut,

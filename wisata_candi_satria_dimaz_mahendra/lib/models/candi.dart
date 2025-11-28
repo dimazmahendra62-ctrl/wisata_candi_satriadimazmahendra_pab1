@@ -1,34 +1,21 @@
 class Candi {
   final String name;
+  final String location;
+  final String description;
+  final String built;
   final String type;
   final String imageAsset;
-  final String location;   // WAJIB ADA
+  final List<String> imageUrls;
+  bool isFavorite;
 
   Candi({
     required this.name,
+    required this.location,
+    required this.description,
+    required this.built,
     required this.type,
     required this.imageAsset,
-    required this.location, // WAJIB ADA
+    required this.imageUrls,
+    this.isFavorite = false,
   });
 }
-
-final List<Candi> candiList = [
-  Candi(
-    name: 'Candi Borobudur',
-    type: 'Buddha',
-    imageAsset: 'assets/images/borobudur.jpg',
-    location: 'Magelang, Jawa Tengah',
-  ),
-  Candi(
-    name: 'Candi Prambanan',
-    type: 'Hindu',
-    imageAsset: 'assets/images/prambanan.jpg',
-    location: 'Sleman, Yogyakarta',
-  ),
-  Candi(
-    name: 'Candi Sewu',
-    type: 'Buddha',
-    imageAsset: 'assets/images/sewu.jpg',
-    location: 'Klaten, Jawa Tengah',
-  ),
-];
