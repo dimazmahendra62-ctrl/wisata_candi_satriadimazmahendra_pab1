@@ -47,6 +47,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  encrypt: ^5.0.3
+  image_picker: ^1.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -64,8 +66,18 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - images/
-
+    - images/borobudur.jpeg
+    - images/jago.jpeg
+    - images/kalasan.jpeg
+    - images/logo_candi.png
+    - images/lumbung.jpeg
+    - images/mendut.jpeg
+    - images/plaosan.jpeg
+    - images/prambanan.jpeg
+    - images/sari.jpeg
+    - images/sewu.jpeg
+    - images/singosari.jpeg
+    - images/placeholder_image.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
